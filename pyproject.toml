@@ -1,0 +1,328 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "maturin>=1.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "algothon-quant"
+version = "0.1.0"
+description = "Polyglot monorepo for quantitative finance algorithms"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Algothon Team", email = "team@algothon.com"}
+]
+maintainers = [
+    {name = "Algothon Team", email = "team@algothon.com"}
+]
+keywords = ["quantitative-finance", "machine-learning", "polyglot", "rust", "julia", "python"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Rust",
+    "Programming Language :: Julia",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+requires-python = ">=3.12"
+dependencies = [
+    # Core data science
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    
+    # Machine learning
+    "scikit-learn>=1.3.0",
+    "xgboost>=1.7.0",
+    "lightgbm>=4.0.0",
+    
+    # Optimization and hyperparameter tuning
+    "optuna>=3.2.0",
+    "hyperopt>=0.2.7",
+    
+    # ML experiment tracking
+    "mlflow>=2.5.0",
+    "wandb>=0.15.0",
+    
+    # Data visualization
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.15.0",
+    
+    # Financial data
+    "yfinance>=0.2.0",
+    "quandl>=3.7.0",
+    "alpha-vantage>=2.3.0",
+    
+    # Time series analysis
+    "statsmodels>=0.14.0",
+    "arch>=6.2.0",
+    
+    # Polyglot support
+    "pyo3>=0.19.0",
+    "julia>=0.5.0",
+    
+    # Utilities
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "tqdm>=4.65.0",
+    "pydantic>=2.0.0",
+    "loguru>=0.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Development tools
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+    
+    # Documentation
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "myst-parser>=2.0.0",
+    
+    # Jupyter
+    "jupyter>=1.0.0",
+    "ipykernel>=6.25.0",
+    "notebook>=7.0.0",
+    
+    # Type checking
+    "types-requests>=2.31.0",
+    "types-pandas>=2.0.0",
+    "types-numpy>=1.24.0",
+]
+
+rust = [
+    # Rust development dependencies
+    "maturin>=1.0.0",
+    "setuptools-rust>=1.5.0",
+]
+
+julia = [
+    # Julia development dependencies
+    "julia>=0.5.0",
+    "pyjulia>=0.5.0",
+]
+
+all = [
+    "algothon-quant[dev,rust,julia]",
+]
+
+[project.urls]
+Homepage = "https://github.com/algothon/algothon-quant"
+Documentation = "https://algothon-quant.readthedocs.io"
+Repository = "https://github.com/algothon/algothon-quant.git"
+"Bug Tracker" = "https://github.com/algothon/algothon-quant/issues"
+"Changelog" = "https://github.com/algothon/algothon-quant/blob/main/CHANGELOG.md"
+
+[project.scripts]
+algothon-quant = "backend.cli:main"
+
+[tool.setuptools]
+packages = ["backend"]
+
+[tool.setuptools.package-data]
+backend = ["*.toml", "*.json", "*.yaml", "*.yml"]
+
+# Rust/PyO3 configuration
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "backend.rust.algothon_quant_rust"
+target-dir = "target"
+manylinux = "2_17"
+release = true
+
+# Python tool configurations
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["backend"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pandas.*",
+    "numpy.*",
+    "scipy.*",
+    "sklearn.*",
+    "xgboost.*",
+    "optuna.*",
+    "mlflow.*",
+    "yfinance.*",
+    "quandl.*",
+    "alpha_vantage.*",
+    "statsmodels.*",
+    "arch.*",
+    "julia.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["backend"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/env/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# Pre-commit configuration
+[tool.pre-commit]
+repos = [
+    {
+        repo = "https://github.com/pre-commit/pre-commit-hooks",
+        rev = "v4.4.0",
+        hooks = [
+            {id = "trailing-whitespace"},
+            {id = "end-of-file-fixer"},
+            {id = "check-yaml"},
+            {id = "check-added-large-files"},
+            {id = "check-merge-conflict"},
+        ],
+    },
+    {
+        repo = "https://github.com/psf/black",
+        rev = "23.7.0",
+        hooks = [{id = "black"}],
+    },
+    {
+        repo = "https://github.com/pycqa/isort",
+        rev = "5.12.0",
+        hooks = [{id = "isort"}],
+    },
+    {
+        repo = "https://github.com/pycqa/flake8",
+        rev = "6.0.0",
+        hooks = [{id = "flake8"}],
+    },
+    {
+        repo = "https://github.com/pre-commit/mirrors-mypy",
+        rev = "v1.5.0",
+        hooks = [
+            {
+                id = "mypy",
+                additional_dependencies = [
+                    "types-requests",
+                    "types-pandas",
+                    "types-numpy",
+                ],
+            },
+        ],
+    },
+]
+
+# Documentation configuration
+[tool.sphinx]
+project = "Algothon-Quant"
+copyright = "2024, Algothon Team"
+author = "Algothon Team"
+version = "0.1.0"
+release = "0.1.0"
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+    "myst_parser",
+]
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
+
+# Rust toolchain configuration
+[tool.rust]
+channel = "stable"
+targets = ["x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-pc-windows-msvc"]
+
+# Julia environment configuration
+[tool.julia]
+version = "1.9"
+depot_path = "julia_depot"
+environment_path = "julia_env"
+packages = [
+    "DataFrames",
+    "CSV",
+    "JSON3",
+    "Statistics",
+    "LinearAlgebra",
+    "Optim",
+    "JuMP",
+    "Ipopt",
+    "Plots",
+    "StatsBase",
+    "Distributions",
+    "TimeSeries",
+] 

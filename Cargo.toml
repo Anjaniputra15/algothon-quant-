@@ -1,0 +1,44 @@
+[package]
+name = "algothon-quant"
+version = "0.1.0"
+edition = "2021"
+description = "Rust components for algothon-quant polyglot monorepo"
+license = "MIT"
+repository = "https://github.com/algothon/algothon-quant"
+keywords = ["quantitative-finance", "machine-learning", "python", "pyo3"]
+categories = ["science", "finance", "api-bindings"]
+
+[lib]
+name = "algothon_quant"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.19", features = ["extension-module"] }
+ndarray = "0.15"
+ndarray-stats = "0.5"
+statrs = "0.16"
+rand = "0.8"
+rand_distr = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.10"
+
+[dev-dependencies]
+criterion = "0.5"
+proptest = "1.3"
+
+[[bench]]
+name = "benchmarks"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true 
