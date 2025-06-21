@@ -179,14 +179,13 @@ This project is for educational and competition use. See LICENSE file for detail
 ---
 
 ## 🔗 Links
-- [Competition Page](#)
 - [GitHub Repository](https://github.com/Anjaniputra15/algothon-quant)
 
 ---
 
 ## 👩‍💻 Authors & Credits
 - Algothon Quant Team
-- Polyglot backend by [Your Name/Team]
+- Polyglot backend by (aayush parashar)
 
 ---
 
