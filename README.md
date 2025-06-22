@@ -1,7 +1,5 @@
 # Algothon-Quant: Full-Stack Quantitative Trading Platform
 
-[![CI](https://github.com/Anjaniputra15/algothon-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/Anjaniputra15/algothon-quant/actions/workflows/ci.yml)
-
 A high-performance, polyglot platform for quantitative trading research, backtesting, and visualization. Built with Python, Rust, Julia, and a Next.js frontend, all containerized with Docker.
 
 ---

@@ -320,5 +320,3 @@ packages = [
     "Plots",
     "StatsBase",
     "Distributions",
-    "TimeSeries",
-] 
