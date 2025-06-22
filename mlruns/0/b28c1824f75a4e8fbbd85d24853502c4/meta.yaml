@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/baba/Downloads/algothon25-starter-code-main/mlruns/0/b28c1824f75a4e8fbbd85d24853502c4/artifacts
+end_time: 1750607197484
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b28c1824f75a4e8fbbd85d24853502c4
+run_name: ClassMomentum
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1750607197477
+status: 3
+tags: []
+user_id: baba

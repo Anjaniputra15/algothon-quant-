@@ -1,0 +1,45 @@
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# IDE/Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Rust
+target/
+
+# Node.js
+node_modules/
+npm-debug.log
+.npm
+
+# Julia
+.julia/
+*~
+
+# MLflow
+mlruns/
+.mlflow-props
+
+# Build artifacts
+dist/
+build/
+*.egg-info
+.pytest_cache/
+.mypy_cache/ 

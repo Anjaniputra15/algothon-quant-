@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/baba/Downloads/algothon25-starter-code-main/mlruns/0/767b4f57b8db435f938dafd71f033602/artifacts
+end_time: 1750607192816
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 767b4f57b8db435f938dafd71f033602
+run_name: MomentumStrategy
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1750607192804
+status: 3
+tags: []
+user_id: baba

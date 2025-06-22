@@ -8,6 +8,12 @@ from typing import Dict, Optional
 from .base import TradingStrategy
 from loguru import logger
 
+try:
+    import mlflow
+    MLFLOW_AVAILABLE = True
+except ImportError:
+    MLFLOW_AVAILABLE = False
+
 
 class MomentumStrategy(TradingStrategy):
     """
@@ -62,15 +68,23 @@ class MomentumStrategy(TradingStrategy):
         Returns:
             Self for method chaining
         """
-        # Validate and store price data
-        self.price_data, self.n_days, self.n_instruments = self.validate_price_data(prices)
-        
-        # Calculate initial momentum scores
-        self._calculate_momentum_scores()
-        
-        self.is_fitted = True
-        logger.info(f"Fitted {self.name} to {self.n_days} days of data")
-        
+        run = None
+        if MLFLOW_AVAILABLE:
+            run = mlflow.start_run(run_name=self.name)
+            mlflow.log_param("lookback_period", self.lookback_period)
+            mlflow.log_param("top_n", self.top_n)
+            mlflow.log_param("rebalance_frequency", self.rebalance_frequency)
+        try:
+            self.price_data, self.n_days, self.n_instruments = self.validate_price_data(prices)
+            self._calculate_momentum_scores()
+            self.is_fitted = True
+            logger.info(f"Fitted {self.name} to {self.n_days} days of data")
+            if MLFLOW_AVAILABLE:
+                mlflow.log_metric("n_days", self.n_days)
+                mlflow.log_metric("n_instruments", self.n_instruments)
+        finally:
+            if MLFLOW_AVAILABLE and run is not None:
+                mlflow.end_run()
         return self
     
     def get_positions(self, day_idx: int) -> Dict[str, float]:

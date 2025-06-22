@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.13.0-alpha.5]
+        julia-version: [1.10.0]
+        rust-toolchain: [stable]
+    env:
+      PYTHONUNBUFFERED: 1
+      MLFLOW_TRACKING_URI: file://${{ github.workspace }}/mlruns
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Julia ${{ matrix.julia-version }}
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: ${{ matrix.julia-version }}
+
+      - name: Set up Rust ${{ matrix.rust-toolchain }}
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust-toolchain }}
+          override: true
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Build Rust wheel (fastcalc)
+        run: |
+          cd rust/fastcalc
+          pip install maturin
+          maturin develop
+          cd ../..
+
+      - name: Run Python tests
+        run: pytest -q
+
+      - name: 5-day smoke backtest
+        run: |
+          python -m backend.cli_backtest --prices prices.txt --strategy momentum --days 5 --mlflow-artifact smoke5.json
+
+      - name: Upload MLflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mlflow-artifacts
+          path: mlruns/
+
+      - name: Fail if metric <= 0
+        run: |
+          python -c "import json; d=json.load(open('smoke5.json')); assert d.get('mean_return', 0) > 0, 'Backtest metric <= 0'" 
