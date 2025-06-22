@@ -1,192 +1,199 @@
-# Algothon-Quant: Polyglot Quantitative Trading Backend
+# Algothon-Quant: Full-Stack Quantitative Trading Platform
 
-A polyglot monorepo for quantitative finance algorithms, combining the power of Python, Rust, and Julia.
+[![CI](https://github.com/Anjaniputra15/algothon-quant/actions/workflows/ci.yml/badge.svg)](https://github.com/Anjaniputra15/algothon-quant/actions/workflows/ci.yml)
 
----
-
-## 🚀 Project Overview
-
-This repository provides a unified, high-performance backend for developing, testing, and evaluating trading strategies. It is designed for both competition and open-source use, supporting:
-
-- **Python 3.12+**: Core algorithms, data processing, and ML models
-- **Rust (via PyO3)**: High-performance numerical computations
-- **Julia (via PyJulia)**: Advanced mathematical modeling
+A high-performance, polyglot platform for quantitative trading research, backtesting, and visualization. Built with Python, Rust, Julia, and a Next.js frontend, all containerized with Docker.
 
 ---
 
-## 🗂️ Directory Structure
+## 🚀 Architecture Overview
 
+This project is a full-stack, end-to-end system for quantitative finance. It combines a powerful backend for strategy development with a modern web UI for interaction and visualization.
+
+```mermaid
+graph TD
+    subgraph "User Interaction"
+        A[Browser] -->|HTTP Request| B(Next.js Frontend);
+    end
+
+    subgraph "Frontend (Next.js)"
+        B -->|API Call /api/backtest| C{API Route};
+    end
+
+    subgraph "Backend (Python)"
+        C -->|Spawns Process| D[backend.cli_backtest];
+        D --> E{Strategies};
+        E --> F[Models: Momentum, MR, Ensemble];
+        F --> G[Core Logic];
+        G --> H[Data Loader];
+        H --> I[prices.txt];
+        D -->|Logs to| J(MLflow Tracking);
+    end
+
+    subgraph "High-Performance (Rust)"
+        K[Rust: fastcalc] <-->|PyO3| G;
+    end
+
+    subgraph "Experiment Tracking"
+        J -->|View in UI| L[MLflow UI];
+    end
+
+    subgraph "Containerization"
+        M(Docker Compose) -->|Orchestrates| N((Container));
+        N --> B;
+        N --> D;
+        N --> L;
+    end
+
+    subgraph "CI/CD"
+        O(GitHub Push) --> P{GitHub Actions};
+        P -->|Runs Tests| Q(Pytest);
+        P -->|Runs Backtest| D;
+    end
+
+    style B fill:#000,stroke:#61DAFB,stroke-width:2px
+    style J fill:#000,stroke:#2096F3,stroke-width:2px
+    style K fill:#000,stroke:#DE6832,stroke-width:2px
+    style M fill:#000,stroke:#2496ED,stroke-width:2px
+    style P fill:#000,stroke:#2088FF,stroke-width:2px
 ```
-algothon-quant/
-├── backend/                 # Python backend package
-│   ├── __init__.py         # Main package initialization
-│   ├── core/               # Core algorithms
-│   ├── data/               # Data processing
-│   ├── models/             # ML models
-│   ├── utils/              # Utilities
-│   ├── strategies/         # Trading strategies
-│   ├── evaluation/         # Backtesting and metrics
-│   └── cli.py              # Command-line interface
-├── pyproject.toml          # Python project configuration
-├── Cargo.toml              # Rust project configuration
-├── JuliaProject.toml       # Julia project configuration
-├── prices.txt              # Example price data
-├── demo_loader.py          # Data loader demo
-├── demo_strategies.py      # Strategies demo
-├── demo_backtester.py      # Backtester demo
-└── README.md               # This file
-```
 
 ---
 
-## 🏁 Competition Objective
+## ✨ Key Features
 
-Develop a trading strategy algorithm to perform optimally on provided price data, subject to realistic trading constraints:
-- **$10,000 per-stock position cap** (long-only)
-- **10 basis points (0.001) commission rate**
-- **Day-by-day backtesting**
-- **Performance metric:** `mean(P&L) - 0.1 * std(P&L)`
+-   **Polyglot Backend**: Python for core logic, Rust for high-speed calculations (`fastcalc`), and Julia hooks for advanced modeling.
+-   **Multiple Strategies**: Includes Momentum, Mean Reversion, and a sophisticated Ensemble model (XGBoost, ARIMA, LSTM).
+-   **Realistic Backtesting**: Simulates trading with a `$10k` position cap and `10 bps` commission.
+-   **Experiment Tracking**: Integrated with **MLflow** to log parameters, metrics, and models for every run.
+-   **Web UI**: A **Next.js** frontend with **TypeScript** and **Tailwind CSS** to run backtests and visualize P&L and drawdown charts.
+-   **Containerized**: Fully containerized with **Docker** and **Docker Compose** for easy, one-command setup.
+-   **Automated CI/CD**: A **GitHub Actions** workflow automatically tests, builds, and validates the system on every push.
 
 ---
 
-## ⚙️ Installation & Setup
+## 🛠️ Tech Stack
+
+-   **Backend**: Python 3.12, PyO3, PyJulia
+-   **Frontend**: Next.js, React, TypeScript, Plotly.js, Tailwind CSS
+-   **High-Performance**: Rust (stable)
+-   **Data Science**: Pandas, NumPy, Scikit-learn, XGBoost, Statsmodels
+-   **MLOps**: MLflow
+-   **CI/CD**: GitHub Actions
+-   **Containerization**: Docker, Docker Compose
+
+---
+
+## 🏁 Getting Started
 
 ### Prerequisites
-- Python 3.12+
-- Rust (for Rust components)
-- Julia 1.9+ (for Julia components)
 
-### Setup Steps
+-   Docker and Docker Compose
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Anjaniputra15/algothon-quant.git
-   cd algothon-quant
-   ```
-2. **Install Python dependencies:**
-   ```bash
-   pip install -e .
-   # Or with extras:
-   pip install -e ".[dev,rust,julia]"
-   ```
-3. **Build Rust components:**
-   ```bash
-   maturin develop
-   ```
-4. **Setup Julia components:**
-   ```bash
-   julia --project=. -e 'using Pkg; Pkg.instantiate()'
-   ```
+### One-Command Setup with Docker
+
+This is the recommended way to run the entire application.
+
+1.  **Clone the repository:**
+    ```sh
+    git clone https://github.com/Anjaniputra15/algothon-quant.git
+    cd algothon-quant
+    ```
+
+2.  **Build and run with Docker Compose:**
+    ```sh
+    docker-compose up --build
+    ```
+    *(The first build will take some time. Subsequent builds are much faster.)*
+
+3.  **Access the services:**
+    -   **Frontend Application**: [http://localhost:3000](http://localhost:3000)
+    -   **MLflow UI**: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-## 🧑‍💻 Usage
+## 🔧 Local Development (Without Docker)
 
-### Python API Example
-```python
-from backend.data.loader import load_price_matrix
-from backend.strategies.momentum import MomentumStrategy
-from backend.evaluation.backtester import run_backtest
+### 1. Backend Setup
 
-# Load price data
-prices = load_price_matrix("prices.txt")
+```sh
+# Install Python dependencies
+pip install -e ".[dev,rust,julia]"
 
-# Initialize and fit strategy
-strategy = MomentumStrategy(lookback=10, top_n=5)
-strategy.fit(prices)
+# Build Rust extensions
+cd rust/fastcalc
+maturin develop
+cd ../..
 
-# Run backtest
-results = run_backtest(strategy, prices)
-print(results)
+# Setup Julia
+julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+# Run backend demos
+python demo_backtester.py
 ```
 
-### Command Line Interface
-```bash
-# Download data, calculate returns, run backtest, etc.
-python -m backend.cli --help
-```
+### 2. Frontend Setup
 
-### Rust & Julia Integration
-- Rust and Julia modules are auto-imported if available for high-performance and advanced modeling.
+```sh
+# Navigate to the frontend directory
+cd frontend/nextjs
+
+# Install Node.js dependencies
+npm install
+
+# Run the frontend dev server
+npm run dev
+```
+The frontend will be available at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 🧪 Development
+## ⚙️ Usage
 
-### Python
-```bash
-pip install -e ".[dev]"
-pytest                # Run tests
-black backend/        # Format code
-isort backend/        # Sort imports
-mypy backend/         # Type checking
-```
+### Frontend UI
 
-### Rust
-```bash
-maturin develop       # Build Rust extension
-cargo test            # Run Rust tests
-```
+1.  Open [http://localhost:3000](http://localhost:3000).
+2.  Select a trading strategy from the dropdown menu.
+3.  Click "Run Backtest" to trigger the backend API.
+4.  View the cumulative P&L and drawdown charts.
 
-### Julia
-```bash
-julia --project=.     # Enter Julia REPL
-julia --project=. -e 'using Pkg; Pkg.test()'  # Run Julia tests
-```
+### MLflow
+
+1.  Open [http://localhost:5000](http://localhost:5000).
+2.  View all experiment runs, compare parameters, and see model metrics.
+3.  Promote the best models to "Production" using the `scripts/register_final.py` script.
 
 ---
 
-## ⚖️ Trading Constraints & Features
-- **$10,000 per-stock position cap** (enforced automatically)
-- **10 bps (0.001) commission** on all trades
-- **Long-only positions** (no short selling)
-- **Day-by-day backtesting** with realistic trading simulation
-- **Performance metrics:** Sharpe ratio, risk-adjusted return, drawdown, etc.
-- **Forward-filling** for missing data (weekends/holidays)
-- **Extensive validation** and error handling
+## 📁 Project Structure
 
----
-
-## 🛠️ Configuration
-
-The backend uses a flexible configuration system:
-```python
-from backend.utils.config import config
-config.set("models.default_random_state", 42)
-config.save()
 ```
-
----
-
-## 📈 Example Demos
-
-- `demo_loader.py`: Data loading and validation
-- `demo_strategies.py`: Strategy interface and constraints
-- `demo_backtester.py`: Backtesting engine and performance metrics
+.
+├── .github/workflows/ci.yml # CI/CD pipeline
+├── backend/                 # Python backend (strategies, models, data)
+├── frontend/nextjs/         # Next.js frontend application
+├── rust/fastcalc/           # High-performance Rust crate
+├── scripts/                 # Utility and deployment scripts
+├── tests/                   # Python and Rust tests
+├── Dockerfile               # Multi-stage Docker build
+├── docker-compose.yml       # Docker service orchestration
+└── README.md                # You are here
+```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please open issues or pull requests for improvements, bug fixes, or new features.
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or new features.
+
+1.  Fork the repository.
+2.  Create a new feature branch (`git checkout -b feature/my-new-feature`).
+3.  Commit your changes (`git commit -am 'Add some feature'`).
+4.  Push to the branch (`git push origin feature/my-new-feature`).
+5.  Create a new Pull Request.
 
 ---
 
 ## 📄 License
 
-This project is for educational and competition use. See LICENSE file for details.
-
----
-
-## 🔗 Links
-- [GitHub Repository](https://github.com/Anjaniputra15/algothon-quant)
-
----
-
-## 👩‍💻 Authors & Credits
-- Algothon Quant Team
-- Polyglot backend by (aayush parashar)
-
----
-
-For any questions, please open an issue on GitHub.
+This project is open-source and available for educational and research purposes. Please see the `LICENSE` file for more details.
