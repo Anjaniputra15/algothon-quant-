@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.13.0-alpha.5]
-        julia-version: [1.10.0]
+        python-version: ['3.12']
+        julia-version: ['1.10']
         rust-toolchain: [stable]
     env:
       PYTHONUNBUFFERED: 1
