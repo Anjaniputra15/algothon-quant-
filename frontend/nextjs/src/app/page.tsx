@@ -1,6 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import Plot from "react-plotly.js";
+import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+
+// Dynamically import Plot component with SSR disabled
+const Plot = dynamic(() => import("react-plotly.js"), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-700 rounded animate-pulse flex items-center justify-center">Loading chart...</div>
+});
 
 const strategies = ["momentum", "mean_reversion", "ensemble"];
 
@@ -10,6 +16,12 @@ export default function Home() {
   const [pnl, setPnl] = useState<number[]>([]);
   const [drawdown, setDrawdown] = useState<number[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Placeholder demo data
   const demoPnl = Array.from({ length: 100 }, (_, i) => Math.sin(i / 10) * 1000 + i * 10);
@@ -61,53 +73,58 @@ export default function Home() {
       {error && <div className="text-red-400 mb-4">{error}</div>}
       <div className="w-full max-w-3xl bg-gray-800 rounded-lg p-6 shadow-lg">
         <h2 className="text-xl font-semibold mb-4">Cumulative P&L</h2>
-        <Plot
-          data={[
-            {
-              x: pnl.map((_, i) => i),
-              y: pnl,
-              type: "scatter",
-              mode: "lines",
-              name: "P&L",
-              line: { color: "#22d3ee" },
-            },
-          ]}
-          layout={{
-            paper_bgcolor: "#1e293b",
-            plot_bgcolor: "#1e293b",
-            font: { color: "#f1f5f9" },
-            xaxis: { title: "Day" },
-            yaxis: { title: "Cumulative P&L" },
-            autosize: true,
-            height: 300,
-          }}
-          useResizeHandler
-          style={{ width: "100%" }}
-        />
+        {isClient && (
+          <Plot
+            data={[
+              {
+                x: pnl.map((_, i) => i),
+                y: pnl,
+                type: "scatter",
+                mode: "lines",
+                name: "P&L",
+                line: { color: "#22d3ee" },
+              },
+            ]}
+            layout={{
+              paper_bgcolor: "#1e293b",
+              plot_bgcolor: "#1e293b",
+              font: { color: "#f1f5f9" },
+              xaxis: { title: { text: "Day" } },
+              yaxis: { title: { text: "Cumulative P&L" } },
+              autosize: true,
+              height: 300,
+              title: { text: "Cumulative P&L" },
+            }}
+            useResizeHandler
+            style={{ width: "100%" }}
+          />
+        )}
         <h2 className="text-xl font-semibold mt-8 mb-4">Drawdown</h2>
-        <Plot
-          data={[
-            {
-              x: drawdown.map((_, i) => i),
-              y: drawdown,
-              type: "scatter",
-              mode: "lines",
-              name: "Drawdown",
-              line: { color: "#f87171" },
-            },
-          ]}
-          layout={{
-            paper_bgcolor: "#1e293b",
-            plot_bgcolor: "#1e293b",
-            font: { color: "#f1f5f9" },
-            xaxis: { title: "Day" },
-            yaxis: { title: "Drawdown" },
-            autosize: true,
-            height: 300,
-          }}
-          useResizeHandler
-          style={{ width: "100%" }}
-        />
+        {isClient && (
+          <Plot
+            data={[
+              {
+                x: drawdown.map((_, i) => i),
+                y: drawdown,
+                type: "scatter",
+                mode: "lines",
+                name: "Drawdown",
+                line: { color: "#f87171" },
+              },
+            ]}
+            layout={{
+              paper_bgcolor: "#1e293b",
+              plot_bgcolor: "#1e293b",
+              font: { color: "#f1f5f9" },
+              xaxis: { title: { text: "Day" } },
+              yaxis: { title: { text: "Drawdown" } },
+              autosize: true,
+              height: 300,
+            }}
+            useResizeHandler
+            style={{ width: "100%" }}
+          />
+        )}
       </div>
     </main>
   );
