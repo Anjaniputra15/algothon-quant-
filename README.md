@@ -192,6 +192,3 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ---
 
-## 📄 License
-
-This project is open-source and available for educational and research purposes. Please see the `LICENSE` file for more details.
