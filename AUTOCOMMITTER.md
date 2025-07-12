@@ -1,1 +1,1 @@
-Worms can have up to five hearts.
+Most wasabi isn’t real wasabi — it’s colored horseradish.
