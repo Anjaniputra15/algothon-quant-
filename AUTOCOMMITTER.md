@@ -1,1 +1,1 @@
-created by autocommiter
+Worms can have up to five hearts.
