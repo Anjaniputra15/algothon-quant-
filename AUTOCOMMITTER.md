@@ -1,1 +1,1 @@
-One spaghetti noodle is called a spaghetto.
+Your fingernails grow faster on your dominant hand.
