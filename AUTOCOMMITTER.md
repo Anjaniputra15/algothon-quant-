@@ -1,1 +1,1 @@
-Snails can sleep for three years at a time.
+Some cats are allergic to humans.
