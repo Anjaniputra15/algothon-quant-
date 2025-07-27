@@ -1,1 +1,1 @@
-Your fingernails grow faster on your dominant hand.
+Bananas are berries, but strawberries are not.
