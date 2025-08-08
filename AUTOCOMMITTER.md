@@ -1,1 +1,1 @@
-Some cats are allergic to humans.
+The hashtag symbol used to be called the pound sign.
