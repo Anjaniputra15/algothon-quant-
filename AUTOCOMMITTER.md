@@ -1,1 +1,1 @@
-Bananas are berries, but strawberries are not.
+Avocados are toxic to birds.
