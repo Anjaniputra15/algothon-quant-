@@ -1,1 +1,1 @@
-Avocados are toxic to birds.
+Some cats are allergic to humans.
