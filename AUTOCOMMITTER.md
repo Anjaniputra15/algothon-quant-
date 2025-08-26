@@ -1,1 +1,1 @@
-The hashtag symbol used to be called the pound sign.
+Antarctica is the only continent without reptiles.
