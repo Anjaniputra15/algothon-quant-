@@ -1,1 +1,1 @@
-Sea otters hold hands when they sleep to avoid drifting apart.
+Your taste buds have a lifespan of about 10 days.
