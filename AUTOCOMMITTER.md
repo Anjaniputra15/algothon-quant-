@@ -1,1 +1,1 @@
-Your taste buds have a lifespan of about 10 days.
+Scotland has 421 words for "snow."
