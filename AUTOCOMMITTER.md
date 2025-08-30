@@ -1,1 +1,1 @@
-You burn more calories sleeping than watching TV.
+A planet exists where it rains molten glass sideways.
