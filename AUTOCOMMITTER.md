@@ -1,1 +1,1 @@
-Octopuses have nine brains.
+Chewing gum while cutting onions can help prevent tears.
