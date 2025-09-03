@@ -1,1 +1,1 @@
-A group of porcupines is called a "prickle."
+Humans glow in the dark — very faintly.
