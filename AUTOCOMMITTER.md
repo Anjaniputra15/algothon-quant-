@@ -1,1 +1,1 @@
-The hashtag symbol is technically called an octothorpe.
+The tongue is the only muscle in the body attached from one end.
