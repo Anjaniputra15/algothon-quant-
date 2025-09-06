@@ -1,1 +1,1 @@
-Sharks are the only fish that can blink with both eyes.
+You burn more calories sleeping than watching TV.
