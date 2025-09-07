@@ -1,1 +1,1 @@
-Elephants are the only animals that can’t jump.
+The total weight of all ants on Earth is roughly equal to that of all humans.
