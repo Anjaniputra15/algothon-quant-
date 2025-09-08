@@ -1,1 +1,1 @@
-Chewing gum while cutting onions can help prevent tears.
+The world’s largest snowflake was 15 inches wide.
