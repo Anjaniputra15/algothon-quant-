@@ -1,1 +1,1 @@
-Octopuses have nine brains.
+Most wasabi isn’t real wasabi — it’s colored horseradish.
