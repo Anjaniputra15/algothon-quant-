@@ -1,1 +1,1 @@
-The tongue is the only muscle in the body attached from one end.
+Koalas have fingerprints that are nearly identical to humans.
