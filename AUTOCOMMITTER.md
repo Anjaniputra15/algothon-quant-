@@ -1,1 +1,1 @@
-A group of flamingos is called a "flamboyance."
+Sharks are the only fish that can blink with both eyes.
