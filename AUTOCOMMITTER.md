@@ -1,1 +1,1 @@
-Otters have a favorite rock they use to break open food.
+A group of flamingos is called a "flamboyance."
