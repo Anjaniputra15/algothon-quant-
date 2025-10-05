@@ -1,1 +1,1 @@
-Coca-Cola would be green without coloring.
+Humans glow in the dark — very faintly.
