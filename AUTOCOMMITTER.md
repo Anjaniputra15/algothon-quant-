@@ -1,1 +1,1 @@
-Scotland has 421 words for "snow."
+Coca-Cola would be green without coloring.
