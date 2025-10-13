@@ -1,1 +1,1 @@
-Humans glow in the dark — very faintly.
+Scotland has 421 words for "snow."
