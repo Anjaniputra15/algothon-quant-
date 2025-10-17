@@ -1,1 +1,1 @@
-Koalas have fingerprints that are nearly identical to humans.
+The world’s largest snowflake was 15 inches wide.
