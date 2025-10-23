@@ -1,1 +1,1 @@
-Bees sometimes sting other bees.
+Birds don’t urinate.
