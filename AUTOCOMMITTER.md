@@ -1,1 +1,1 @@
-The world’s largest snowflake was 15 inches wide.
+Bees sometimes sting other bees.
